@@ -1,0 +1,616 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jade Schembri — AI Evaluation &amp; Data Specialist</title>
+<meta name="description" content="Jade Schembri — AI Evaluation & Data Specialist based in Malta. LLM evaluation, RLHF preference ranking, data annotation, computer vision QA and Maltese-language AI work.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f7fa;
+    --surface: #ffffff;
+    --surface-2: #f0f3f7;
+    --text: #0f1b2d;
+    --muted: #5a6779;
+    --line: #e2e7ee;
+    --accent: #1d4ed8;
+    --accent-ink: #ffffff;
+    --accent-soft: #e8eefc;
+    --navy: #0f1b2d;
+    --shadow: 0 1px 2px rgba(15,27,45,.04), 0 4px 16px rgba(15,27,45,.06);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0b111b;
+      --surface: #121a27;
+      --surface-2: #172233;
+      --text: #e7ecf3;
+      --muted: #96a3b6;
+      --line: #223047;
+      --accent: #7aa2ff;
+      --accent-ink: #0b111b;
+      --accent-soft: #1a2742;
+      --navy: #121a27;
+      --shadow: none;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0b111b;
+    --surface: #121a27;
+    --surface-2: #172233;
+    --text: #e7ecf3;
+    --muted: #96a3b6;
+    --line: #223047;
+    --accent: #7aa2ff;
+    --accent-ink: #0b111b;
+    --accent-soft: #1a2742;
+    --navy: #121a27;
+    --shadow: none;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 16px/1.6 "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
+  svg.i { width: 18px; height: 18px; flex: none; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* Nav */
+  nav {
+    position: sticky; top: 0; z-index: 20;
+    background: color-mix(in srgb, var(--bg) 85%, transparent);
+    backdrop-filter: saturate(140%) blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; gap: 16px; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; color: var(--text); }
+  .brand:hover { text-decoration: none; }
+  .mono {
+    width: 32px; height: 32px; border-radius: 8px; background: var(--accent); color: var(--accent-ink);
+    display: grid; place-items: center; font-size: 13px; font-weight: 800; letter-spacing: .02em;
+  }
+  nav ul { list-style: none; display: flex; gap: 24px; margin: 0; padding: 0; }
+  nav ul a { color: var(--muted); font-size: 14px; font-weight: 500; }
+  nav ul a:hover { color: var(--text); text-decoration: none; }
+  @media (max-width: 760px) { nav ul { display: none; } }
+
+  /* Hero */
+  .hero { padding: 72px 0 56px; }
+  .hero-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 40px; align-items: start; }
+  @media (max-width: 860px) { .hero-grid { grid-template-columns: 1fr; } }
+  .tag {
+    display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px;
+    background: var(--accent-soft); color: var(--accent); font-size: 13px; font-weight: 600; margin-bottom: 20px;
+  }
+  .tag .dot { width: 7px; height: 7px; border-radius: 50%; background: #16a34a; }
+  h1 { font-size: clamp(38px, 6vw, 58px); line-height: 1.05; letter-spacing: -0.03em; margin: 0 0 14px; font-weight: 800; }
+  .role-line { font-size: clamp(18px, 2.4vw, 22px); font-weight: 600; color: var(--muted); margin: 0 0 20px; }
+  .lede { font-size: 17px; color: var(--muted); max-width: 620px; margin: 0 0 28px; }
+  .btns { display: flex; flex-wrap: wrap; gap: 12px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 10px;
+    font-weight: 600; font-size: 15px; border: 1px solid var(--line); color: var(--text); background: var(--surface);
+  }
+  .btn:hover { text-decoration: none; border-color: var(--accent); }
+  .btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+
+  .profile {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 24px; box-shadow: var(--shadow);
+  }
+  .profile .head { display: flex; align-items: center; gap: 14px; padding-bottom: 18px; border-bottom: 1px solid var(--line); margin-bottom: 14px; }
+  .avatar {
+    width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center;
+    background: linear-gradient(135deg, #1d4ed8, #0f1b2d); color: #fff; font-weight: 800; font-size: 22px;
+  }
+  .profile .name { font-weight: 700; font-size: 18px; }
+  .profile .title { color: var(--muted); font-size: 14px; }
+  .facts { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+  .facts li { display: flex; gap: 12px; align-items: flex-start; font-size: 14px; }
+  .facts li svg { color: var(--accent); margin-top: 2px; }
+  .facts b { display: block; font-weight: 600; }
+  .facts span { color: var(--muted); }
+
+  /* Stats */
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; margin-top: 48px; }
+  .stat { background: var(--surface); padding: 22px 20px; }
+  .stat b { display: block; font-size: 30px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; }
+  .stat span { color: var(--muted); font-size: 14px; }
+  @media (max-width: 720px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+
+  /* Logo strip */
+  .strip { padding: 28px 0 8px; }
+  .strip p { text-align: center; color: var(--muted); font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; margin: 0 0 18px; }
+  .strip .row { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+  .strip .logo-chip {
+    height: 56px; min-width: 120px; padding: 10px 18px; background: #fff; border: 1px solid var(--line); border-radius: 12px;
+    display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 700; color: #0f1b2d; font-size: 15px;
+  }
+  .strip .logo-chip img { max-height: 32px; max-width: 120px; object-fit: contain; }
+
+  /* Sections */
+  section { padding: 64px 0; }
+  section + section { border-top: 1px solid var(--line); }
+  .sec-head { margin-bottom: 32px; }
+  .kicker { color: var(--accent); font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; margin: 0 0 6px; }
+  h2 { font-size: clamp(26px, 3.4vw, 34px); letter-spacing: -0.02em; margin: 0; font-weight: 800; }
+  .sec-head p { color: var(--muted); margin: 8px 0 0; max-width: 640px; }
+
+  /* About */
+  .about-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 32px; }
+  @media (max-width: 860px) { .about-grid { grid-template-columns: 1fr; } }
+  .about-grid p { margin: 0 0 14px; }
+  .why { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 22px; box-shadow: var(--shadow); }
+  .why h3 { margin: 0 0 12px; font-size: 16px; }
+  .why ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+  .why li { display: flex; gap: 10px; font-size: 15px; }
+  .why li svg { color: #16a34a; margin-top: 3px; }
+
+  /* Capabilities */
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 22px; box-shadow: var(--shadow); }
+  .card .ico { width: 40px; height: 40px; border-radius: 10px; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; margin-bottom: 14px; }
+  .card .ico svg { width: 20px; height: 20px; }
+  .card h3 { margin: 0 0 6px; font-size: 16px; }
+  .card p { margin: 0; color: var(--muted); font-size: 14.5px; }
+
+  /* Experience */
+  .exp { display: grid; gap: 16px; }
+  .job { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 24px; box-shadow: var(--shadow); display: grid; grid-template-columns: 64px 1fr; gap: 20px; }
+  @media (max-width: 560px) { .job { grid-template-columns: 1fr; gap: 14px; } }
+  .logo-tile {
+    width: 64px; height: 64px; border-radius: 12px; background: #fff; border: 1px solid var(--line);
+    display: grid; place-items: center; overflow: hidden; padding: 8px;
+  }
+  .logo-tile img { max-width: 100%; max-height: 100%; object-fit: contain; }
+  .logo-tile.text { padding: 0; color: #fff; font-weight: 800; font-size: 20px; border: 0; }
+  .job-top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 16px; }
+  .job h3 { margin: 0; font-size: 18px; }
+  .dates { color: var(--muted); font-size: 14px; font-weight: 500; white-space: nowrap; }
+  .org { font-weight: 600; color: var(--text); margin-top: 2px; }
+  .badges { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 12px; }
+  .badge { font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px; background: var(--surface-2); color: var(--muted); border: 1px solid var(--line); }
+  .job ul { margin: 0; padding-left: 18px; }
+  .job li { margin: 5px 0; font-size: 15px; }
+  .job li::marker { color: var(--accent); }
+  .sub-role { padding-top: 14px; margin-top: 14px; border-top: 1px dashed var(--line); }
+  .sub-role:first-of-type { border-top: 0; margin-top: 4px; padding-top: 6px; }
+  .sub-role .job-top h4 { margin: 0; font-size: 16px; }
+  .sub-role .badges { margin: 6px 0 8px; }
+
+  /* Skills */
+  .skills { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  @media (max-width: 760px) { .skills { grid-template-columns: 1fr; } }
+  .skillgroup { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 20px; box-shadow: var(--shadow); }
+  .skillgroup h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0 0 12px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { background: var(--surface-2); border: 1px solid var(--line); border-radius: 8px; padding: 5px 10px; font-size: 13.5px; font-weight: 500; }
+  .chip.hl { background: var(--accent-soft); border-color: transparent; color: var(--accent); }
+
+  /* Education */
+  .edu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  @media (max-width: 760px) { .edu-grid { grid-template-columns: 1fr; } }
+  .edu { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 22px; box-shadow: var(--shadow); display: flex; gap: 16px; }
+  .edu .logo-tile { width: 72px; height: 72px; flex: none; }
+  .edu h3 { margin: 0 0 4px; font-size: 16px; }
+  .edu .muted { color: var(--muted); font-size: 14px; }
+  .edu .logo-tile { position: relative; overflow: visible; padding: 10px; }
+  .edu .logo-tile img { width: 100%; height: 100%; }
+  .edu .logo-tile img.via { position: absolute; right: -8px; bottom: -8px; width: 28px; height: 28px; border-radius: 50%; background: #fff; border: 1px solid var(--line); padding: 4px; }
+  .lang { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
+  .lang span { font-size: 14px; }
+  .lang b { font-weight: 600; }
+
+  /* Resume */
+  .resume { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); overflow: hidden; }
+  .resume-bar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; padding: 16px 20px; border-bottom: 1px solid var(--line); }
+  .resume-bar .file { display: flex; align-items: center; gap: 10px; font-weight: 600; }
+  .resume-bar .file svg { color: var(--accent); }
+  .resume-bar .file small { color: var(--muted); font-weight: 400; }
+  .resume-bar .btns .btn { padding: 9px 16px; font-size: 14px; }
+  .resume object { display: block; width: 100%; height: 900px; border: 0; background: #525659; }
+  .resume .fallback { padding: 40px 20px; text-align: center; color: var(--muted); }
+  @media (max-width: 760px) { .resume object { height: 560px; } }
+
+  /* CTA */
+  .cta { background: var(--navy); color: #fff; border-radius: 18px; padding: 40px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px; }
+  .cta h2 { color: #fff; }
+  .cta p { color: #b8c3d4; margin: 8px 0 0; }
+  .cta .btn { background: #fff; color: #0f1b2d; border-color: #fff; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .cta { border: 1px solid var(--line); } }
+
+  footer { padding: 32px 0 48px; color: var(--muted); font-size: 14px; }
+  footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+
+  @media print {
+    nav, .btns, .cta { display: none; }
+    .job, .card, .skillgroup, .edu { break-inside: avoid; box-shadow: none; }
+    section { padding: 28px 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Icon sprite -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-7-6.1-7-11a7 7 0 1 1 14 0c0 4.9-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></symbol>
+  <symbol id="i-laptop" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="11" rx="1.5"/><path d="M2 19h20"/></symbol>
+  <symbol id="i-cap" viewBox="0 0 24 24"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></symbol>
+  <symbol id="i-in" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 10v7M8 7v.01M12 17v-4a2 2 0 0 1 4 0v4M12 10v7"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></symbol>
+  <symbol id="i-scale" viewBox="0 0 24 24"><path d="M12 3v18M7 21h10M5 7h14M5 7l-3 6a3 3 0 0 0 6 0zM19 7l-3 6a3 3 0 0 0 6 0z"/></symbol>
+  <symbol id="i-rank" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3l10 18H2z"/><path d="M12 10v4M12 17v.01"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.5 7.2L4 21l1.8-5.5A8 8 0 1 1 21 12z"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-db" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></symbol>
+  <symbol id="i-lang" viewBox="0 0 24 24"><path d="M4 5h9M8.5 3v2M6 5c0 4 3 7 6 8M11 5c0 4-3 7-7 9M13 21l4-9 4 9M14.5 18h5"/></symbol>
+  <symbol id="i-brief" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18"/></symbol>
+</svg>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#top"><span class="mono">JS</span>Jade Schembri</a>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#expertise">Expertise</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#resume">Résumé</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main id="top">
+  <header class="hero">
+    <div class="wrap">
+      <div class="hero-grid">
+        <div>
+          <span class="tag"><span class="dot"></span>Open to remote AI evaluation projects</span>
+          <h1>Jade Schembri</h1>
+          <p class="role-line">AI Evaluation &amp; Data Specialist · Native Maltese Speaker</p>
+          <p class="lede">I help teams build better AI by evaluating model outputs, producing RLHF-style preference data and keeping training data clean and consistent across text, conversational AI and computer vision projects.</p>
+          <div class="btns">
+            <a class="btn primary" href="https://linkedin.com/in/jade-s-7b79351b8" target="_blank" rel="noopener"><svg class="i"><use href="#i-in"/></svg>View LinkedIn</a>
+            <a class="btn" href="Jade_Schembri_Resume.pdf" target="_blank" rel="noopener"><svg class="i"><use href="#i-doc"/></svg>Download résumé</a>
+          </div>
+        </div>
+
+        <aside class="profile">
+          <div class="head">
+            <div class="avatar">JS</div>
+            <div>
+              <div class="name">Jade Schembri</div>
+              <div class="title">AI Evaluation &amp; Data Specialist</div>
+            </div>
+          </div>
+          <ul class="facts">
+            <li><svg class="i"><use href="#i-pin"/></svg><div><b>Location</b><span>Valletta, Malta</span></div></li>
+            <li><svg class="i"><use href="#i-globe"/></svg><div><b>Languages</b><span>Maltese (native) · English (fluent)</span></div></li>
+            <li><svg class="i"><use href="#i-laptop"/></svg><div><b>Work style</b><span>Remote · part-time &amp; freelance</span></div></li>
+            <li><svg class="i"><use href="#i-cap"/></svg><div><b>Education</b><span>B.Com, University of Malta</span></div></li>
+          </ul>
+        </aside>
+      </div>
+
+      <div class="stats">
+        <div class="stat"><b>4+ years</b><span>AI evaluation &amp; data work</span></div>
+        <div class="stat"><b>2,000+</b><span>AI responses reviewed</span></div>
+        <div class="stat"><b>3+ years</b><span>Marketing in insurance</span></div>
+        <div class="stat"><b>2</b><span>Working languages</span></div>
+      </div>
+
+      <div class="strip">
+        <p>Experience with</p>
+        <div class="row">
+          <div class="logo-chip"><span class="logo-tile text" style="width:28px;height:28px;font-size:12px;border-radius:6px;background:#4f46e5">E</span>Eunoia</div>
+          <div class="logo-chip"><span class="logo-tile text" style="width:28px;height:28px;font-size:12px;border-radius:6px;background:#0f766e">SC</span>SmartCow</div>
+          <div class="logo-chip"><img src="logos/neuralai.png" alt=""> Neural AI</div>
+          <div class="logo-chip"><img src="logos/ebo.png" alt="EBO.ai"></div>
+          <div class="logo-chip"><img src="logos/mapfre.svg" alt="MAPFRE"></div>
+          <div class="logo-chip"><img src="logos/ax.png" alt=""> AX Care</div>
+          <div class="logo-chip"><img src="logos/whsmith.svg" alt="WHSmith"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section id="about">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="kicker">About</p>
+        <h2>AI evaluation backed by business and language skills</h2>
+      </div>
+      <div class="about-grid">
+        <div>
+          <p>I am an AI Evaluation and Data Specialist with 4+ years of part-time and freelance experience in LLM evaluation, RLHF-style preference ranking, data annotation and data quality across text, conversational AI and computer vision projects. I have reviewed 2,000+ AI-generated responses for accuracy, reasoning and instruction following.</p>
+          <p>I also bring 3+ years of marketing experience in the insurance sector and a Bachelor of Commerce (Business Enterprise Management and Marketing) from the University of Malta, which gives me domain knowledge in marketing, business and insurance.</p>
+          <p>As a native Maltese and fluent English speaker, I am well suited to multilingual evaluation and Maltese-language AI work.</p>
+        </div>
+        <div class="why">
+          <h3>What I bring to a project</h3>
+          <ul>
+            <li><svg class="i"><use href="#i-check"/></svg>Rubric-based scoring with a clear written justification for every rating</li>
+            <li><svg class="i"><use href="#i-check"/></svg>Reproducible bug and hallucination reports engineers can act on</li>
+            <li><svg class="i"><use href="#i-check"/></svg>Python, Pandas and NumPy for data cleaning and quality checks</li>
+            <li><svg class="i"><use href="#i-check"/></svg>Native Maltese for rare-language evaluation and data</li>
+            <li><svg class="i"><use href="#i-check"/></svg>Domain knowledge in marketing, business and insurance</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="expertise">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="kicker">Expertise</p>
+        <h2>Core competencies</h2>
+        <p>The areas I work in most across evaluation, annotation and data quality.</p>
+      </div>
+      <div class="cards">
+        <div class="card"><div class="ico"><svg class="i"><use href="#i-scale"/></svg></div><h3>LLM evaluation</h3><p>Scoring AI outputs against detailed rubrics for factuality, reasoning and instruction following.</p></div>
+        <div class="card"><div class="ico"><svg class="i"><use href="#i-rank"/></svg></div><h3>RLHF preference ranking</h3><p>Ranking multiple responses to the same prompt by overall quality to produce preference data.</p></div>
+        <div class="card"><div class="ico"><svg class="i"><use href="#i-alert"/></svg></div><h3>Hallucination &amp; error analysis</h3><p>Finding hallucinations, context loss, unsafe outputs and edge cases, with reproducible examples.</p></div>
+        <div class="card"><div class="ico"><svg class="i"><use href="#i-chat"/></svg></div><h3>Conversational AI testing</h3><p>Single- and multi-turn chatbot evaluation for context retention, tone and safety; adversarial test prompts.</p></div>
+        <div class="card"><div class="ico"><svg class="i"><use href="#i-eye"/></svg></div><h3>Computer vision QA</h3><p>Image and video annotation review; per-class precision, recall and F1 against ground truth.</p></div>
+        <div class="card"><div class="ico"><svg class="i"><use href="#i-db"/></svg></div><h3>Data quality with Python</h3><p>Cleaning, deduplicating and validating text and tabular training data with Pandas and NumPy.</p></div>
+        <div class="card"><div class="ico"><svg class="i"><use href="#i-lang"/></svg></div><h3>Maltese-language AI</h3><p>Native Maltese and fluent English for multilingual evaluation and Maltese-language data work.</p></div>
+        <div class="card"><div class="ico"><svg class="i"><use href="#i-brief"/></svg></div><h3>Business &amp; insurance domain</h3><p>Marketing, business and insurance knowledge for expert evaluation of content in these fields.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="kicker">Experience</p>
+        <h2>AI &amp; data roles</h2>
+      </div>
+      <div class="exp">
+
+        <article class="job">
+          <div class="logo-tile text" style="background:#4f46e5">E</div>
+          <div>
+            <div class="job-top"><h3>AI Data &amp; Evaluation Specialist</h3><span class="dates">Oct 2026 – Present</span></div>
+            <div class="org">Eunoia</div>
+            <div class="badges"><span class="badge">Malta</span><span class="badge">Remote</span></div>
+            <ul>
+              <li>Evaluate AI-generated content against detailed rubrics for factuality, reasoning and instruction following, with a score and written justification for each rating.</li>
+              <li>Identify hallucinations, unusual outputs and edge cases, documenting reproducible examples for the engineering team.</li>
+              <li>Clean, deduplicate and validate text and tabular training data using Python, Pandas and NumPy.</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="job">
+          <div class="logo-tile text" style="background:#0f766e">SC</div>
+          <div>
+            <div class="job-top"><h3>AI Training &amp; Computer Vision Specialist</h3><span class="dates">Sep 2025 – Present</span></div>
+            <div class="org">SmartCow</div>
+            <div class="badges"><span class="badge">Part-time</span><span class="badge">Malta</span><span class="badge">Remote</span></div>
+            <ul>
+              <li>Annotate and quality-check image and video datasets for object detection, classification and visual recognition models.</li>
+              <li>Review bounding boxes and class labels against annotation guidelines, correcting mislabelled, missing or inconsistent annotations before training.</li>
+              <li>Compare model predictions with ground truth using precision, recall and F1-score to measure performance by object class.</li>
+              <li>Analyse false positives, false negatives and hard cases (occlusion, low light, small or overlapping objects) and report recurring error patterns to the ML team.</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="job">
+          <div class="logo-tile"><img src="logos/neuralai.png" alt="Neural AI logo"></div>
+          <div>
+            <div class="job-top"><h3>AI Training &amp; Data Specialist</h3><span class="dates">Oct 2022 – Oct 2024</span></div>
+            <div class="org">Neural AI</div>
+            <div class="badges"><span class="badge">Freelance</span><span class="badge">Malta</span><span class="badge">Remote</span></div>
+            <ul>
+              <li>Prepared, cleaned and validated text and tabular datasets for AI training workflows.</li>
+              <li>Wrote Python scripts to flag duplicate, incomplete and inconsistent records, reducing manual checking time.</li>
+              <li>Labelled training examples to project guidelines and quality-checked work completed by other annotators.</li>
+              <li>Documented ambiguous examples and recurring errors, and suggested guideline updates to resolve annotation disagreements.</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="job">
+          <div class="logo-tile"><img src="logos/ebo.png" alt="EBO.ai logo"></div>
+          <div>
+            <div class="job-top"><h3>AI Model Evaluation Specialist</h3><span class="dates">Aug 2022 – Oct 2023</span></div>
+            <div class="org">EBO.ai</div>
+            <div class="badges"><span class="badge">Part-time</span><span class="badge">Malta</span><span class="badge">Remote</span></div>
+            <ul>
+              <li>Evaluated chatbots and virtual assistants across single-turn and multi-turn conversations, focusing on context retention, tone and safety.</li>
+              <li>Ranked multiple model responses to the same prompt by overall quality, producing preference data for RLHF-style model improvement.</li>
+              <li>Wrote reference answers and training examples, and designed test prompts to probe weaknesses in model behaviour.</li>
+              <li>Categorised hallucinations, context loss and unsafe outputs, and used Python to track quality trends for the development team.</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+
+      <div class="sec-head" style="margin-top:56px">
+        <p class="kicker">Experience</p>
+        <h2>Marketing &amp; business roles</h2>
+      </div>
+      <div class="exp">
+        <article class="job">
+          <div class="logo-tile"><img src="logos/mapfre-icon.png" alt="MAPFRE logo"></div>
+          <div>
+            <div class="job-top"><h3>MAPFRE Middlesea</h3><span class="dates">Jul 2022 – Dec 2025</span></div>
+            <div class="badges"><span class="badge">Insurance</span><span class="badge">Valletta, Malta</span><span class="badge">On-site</span></div>
+
+            <div class="sub-role">
+              <div class="job-top"><h4>Marketing Executive</h4><span class="dates">Jul 2024 – Dec 2025</span></div>
+              <div class="badges"><span class="badge">Full-time</span></div>
+              <ul>
+                <li>Planned and executed marketing campaigns to build brand awareness for MAPFRE insurance products.</li>
+                <li>Coordinated media planning and campaign scheduling, using Microsoft Excel to organise timelines and track campaign progress.</li>
+                <li>Produced digital content for social media, including Instagram, in line with brand guidelines.</li>
+              </ul>
+            </div>
+            <div class="sub-role">
+              <div class="job-top"><h4>Marketing Intern</h4><span class="dates">Jun 2023 – Oct 2024</span></div>
+              <div class="badges"><span class="badge">Full-time</span></div>
+              <ul>
+                <li>Supported campaign execution and creative direction for brand-awareness initiatives.</li>
+                <li>Created digital and social media content, mainly for Instagram, and helped prepare marketing materials using Microsoft Office.</li>
+              </ul>
+            </div>
+            <div class="sub-role">
+              <div class="job-top"><h4>Human Resources Intern</h4><span class="dates">Jul 2022 – Oct 2023</span></div>
+              <div class="badges"><span class="badge">Part-time</span></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="job">
+          <div class="logo-tile"><img src="logos/ax.png" alt="AX logo"></div>
+          <div>
+            <div class="job-top"><h3>Marketing Executive</h3><span class="dates">Sep 2025 – Nov 2025</span></div>
+            <div class="org">AX Care</div>
+            <div class="badges"><span class="badge">Full-time</span><span class="badge">Malta</span><span class="badge">On-site</span></div>
+          </div>
+        </article>
+
+        <article class="job">
+          <div class="logo-tile"><img src="logos/whsmith-wh.svg" alt="WHSmith logo"></div>
+          <div>
+            <div class="job-top"><h3>Customer Service &amp; Sales</h3><span class="dates">Oct 2021 – Oct 2022</span></div>
+            <div class="org">WHSmith</div>
+            <div class="badges"><span class="badge">Part-time</span><span class="badge">Malta</span></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="kicker">Skills</p>
+        <h2>Skills &amp; tools</h2>
+        <p>Highlighted skills are the ones most relevant to AI evaluation work.</p>
+      </div>
+      <div class="skills">
+        <div class="skillgroup">
+          <h3>AI evaluation</h3>
+          <div class="chips"><span class="chip hl">Large Language Models (LLM)</span><span class="chip hl">RLHF</span><span class="chip hl">Preference Ranking</span><span class="chip hl">Hallucination Detection</span><span class="chip hl">Prompt Engineering</span><span class="chip hl">Model Evaluation</span><span class="chip hl">Error Analysis</span><span class="chip hl">Computer Vision</span></div>
+        </div>
+        <div class="skillgroup">
+          <h3>Data</h3>
+          <div class="chips"><span class="chip hl">Data Annotation</span><span class="chip hl">Data Cleaning</span><span class="chip hl">Data Validation</span><span class="chip hl">Data Quality</span><span class="chip hl">Data Analysis</span></div>
+          <h3 style="margin-top:18px">Tools</h3>
+          <div class="chips"><span class="chip hl">Python</span><span class="chip hl">Pandas</span><span class="chip hl">NumPy</span><span class="chip">Microsoft Excel (LinkedIn Skill Assessment passed)</span><span class="chip">Microsoft Office</span></div>
+        </div>
+        <div class="skillgroup">
+          <h3>Marketing</h3>
+          <div class="chips"><span class="chip">Digital Marketing</span><span class="chip">Social Media Marketing</span><span class="chip">Instagram</span><span class="chip">SEO</span><span class="chip">SEM</span><span class="chip">PPC</span><span class="chip">Programmatic Ads</span><span class="chip">Email Marketing</span><span class="chip">Campaign Strategy &amp; Execution</span><span class="chip">Media Planning</span><span class="chip">Brand Strategy</span><span class="chip">Brand Awareness</span><span class="chip">Creative Direction</span><span class="chip">Digital Content</span><span class="chip">Advertising</span><span class="chip">Lead Generation</span></div>
+        </div>
+        <div class="skillgroup">
+          <h3>Business</h3>
+          <div class="chips"><span class="chip">Market Analysis</span><span class="chip">Consumer Behaviour</span><span class="chip">Corporate Strategy</span><span class="chip">Product Development</span><span class="chip">Project Management</span><span class="chip">Budgeting</span></div>
+          <h3 style="margin-top:18px">Professional</h3>
+          <div class="chips"><span class="chip">Communication</span><span class="chip">Teamwork</span><span class="chip">Leadership</span><span class="chip">Problem Solving</span><span class="chip">Critical Thinking</span><span class="chip">Attention to Detail</span><span class="chip">Organisation</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="education">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="kicker">Education</p>
+        <h2>Education, certifications &amp; languages</h2>
+      </div>
+      <div class="edu-grid">
+        <div class="edu">
+          <div class="logo-tile" style="padding:6px"><img src="logos/um-crest.svg" alt="University of Malta logo"></div>
+          <div>
+            <h3>Bachelor of Commerce</h3>
+            <div>Business Enterprise Management and Marketing</div>
+            <div class="muted">University of Malta · MQF Level 6 · 2020 – 2023</div>
+            <div class="muted" style="margin-top:6px">Majored in Marketing and Management after the common first year (Sep 2020 – Jun 2021).</div>
+          </div>
+        </div>
+        <div class="edu">
+          <div class="logo-tile"><img src="logos/deeplearning.png" alt="DeepLearning.AI logo"><img class="via" src="logos/coursera-icon.png" alt="Coursera logo"></div>
+          <div>
+            <h3>Machine Learning Specialization</h3>
+            <div class="muted">DeepLearning.AI · via Coursera</div>
+            <div class="badges"><span class="badge">Certification</span><span class="badge">Machine Learning</span></div>
+          </div>
+        </div>
+        <div class="edu">
+          <div class="logo-tile"><img src="logos/ibm.svg" alt="IBM logo"><img class="via" src="logos/coursera-icon.png" alt="Coursera logo"></div>
+          <div>
+            <h3>Python for Data Science</h3>
+            <div class="muted">IBM · via Coursera</div>
+            <div class="badges"><span class="badge">Certification</span><span class="badge">Python</span><span class="badge">Data Science</span></div>
+          </div>
+        </div>
+        <div class="edu">
+          <div class="logo-tile" style="background:var(--accent-soft);border-color:transparent;color:var(--accent)"><svg class="i" style="width:30px;height:30px"><use href="#i-lang"/></svg></div>
+          <div>
+            <h3>Languages</h3>
+            <div class="lang"><span><b>Maltese</b> · Native</span><span><b>English</b> · Fluent</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="resume">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="kicker">Résumé</p>
+        <h2>Full résumé</h2>
+        <p>View it here or download the PDF.</p>
+      </div>
+      <div class="resume">
+        <div class="resume-bar">
+          <div class="file"><svg class="i"><use href="#i-doc"/></svg>Jade_Schembri_Resume.pdf <small>· 2 pages</small></div>
+          <div class="btns">
+            <a class="btn" href="Jade_Schembri_Resume.pdf" target="_blank" rel="noopener">Open in new tab</a>
+            <a class="btn primary" href="Jade_Schembri_Resume.pdf" download><svg class="i"><use href="#i-doc"/></svg>Download PDF</a>
+          </div>
+        </div>
+        <object data="Jade_Schembri_Resume.pdf#view=FitH" type="application/pdf" aria-label="Jade Schembri résumé">
+          <div class="fallback">Your browser can't show the PDF here. <a href="Jade_Schembri_Resume.pdf" target="_blank" rel="noopener">Open the résumé</a> instead.</div>
+        </object>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="cta">
+        <div>
+          <h2>Let's work together</h2>
+          <p>Available for remote AI evaluation, annotation and Maltese-language data projects.</p>
+        </div>
+        <a class="btn" href="https://linkedin.com/in/jade-s-7b79351b8" target="_blank" rel="noopener"><svg class="i"><use href="#i-in"/></svg>Connect on LinkedIn</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Jade Schembri · Valletta, Malta</span>
+    <a href="https://linkedin.com/in/jade-s-7b79351b8" target="_blank" rel="noopener">linkedin.com/in/jade-s-7b79351b8</a>
+  </div>
+</footer>
+
+</body>
+</html>
